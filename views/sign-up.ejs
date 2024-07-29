@@ -3,7 +3,17 @@
 <div class="mx-auto" style="max-width: 540px">
   <h2 class="text-center">Sign Up</h2>
 
-  <form class="my-3" action="/sign-up" method="post">
+  <% if (errors && errors.length > 0) { %>
+  <div class="alert alert-danger">
+    <ul class="mb-0">
+      <% errors.forEach((error) => { %>
+      <li><%= error.msg %></li>
+      <% }) %>
+    </ul>
+  </div>
+  <% } %>
+
+  <form action="/sign-up" method="post">
     <div class="mb-2 row">
       <div class="col">
         <label for="first_name" class="form-label">First name</label>
@@ -12,6 +22,7 @@
           class="form-control"
           id="first_name"
           name="first_name"
+          value="<%= formData ? formData.first_name : '' %>"
         />
       </div>
       <div class="col">
@@ -21,12 +32,19 @@
           class="form-control"
           id="last_name"
           name="last_name"
+          value="<%= formData ? formData.last_name : '' %>"
         />
       </div>
     </div>
     <div class="mb-2">
       <label for="username" class="form-label">Username</label>
-      <input type="text" class="form-control" id="username" name="username" />
+      <input
+        type="text"
+        class="form-control"
+        id="username"
+        name="username"
+        value="<%= formData ? formData.username : '' %>"
+      />
     </div>
     <div class="mb-2">
       <label for="password" class="form-label">Password</label>
@@ -35,6 +53,7 @@
         class="form-control"
         id="password"
         name="password"
+        value="<%= formData ? formData.password : '' %>"
       />
     </div>
     <div class="mb-2">
@@ -44,6 +63,7 @@
         class="form-control"
         id="confirm_password"
         name="confirm_password"
+        value="<%= formData ? formData.confirm_password : '' %>"
       />
     </div>
     <button type="submit" class="btn btn-primary">Sign Up</button>
