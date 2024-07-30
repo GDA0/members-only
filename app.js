@@ -4,6 +4,11 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const engine = require("ejs-mate");
+const session = require("express-session");
+const passport = require("passport");
+const PgSession = require("connect-pg-simple")(session);
+const database = require("./database");
+require("dotenv").config();
 
 const indexRouter = require("./routes/index");
 const authRouter = require("./routes/auth");
@@ -20,6 +25,27 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: new PgSession({
+      pool: database.pool,
+      tableName: "session",
+      createTableIfMissing: true,
+    }),
+  })
+);
+app.use(passport.session());
+app.use((req, res, next) => {
+  const messages = req.session.messages || [];
+  res.locals.messages = messages;
+  res.locals.hasMessages = messages.length > 0;
+  req.session.messages = [];
+  next();
+});
 
 app.use("/", indexRouter);
 app.use("/", authRouter);

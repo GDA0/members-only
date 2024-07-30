@@ -1,5 +1,8 @@
 function controlIndexGet(req, res) {
-  res.render("index", { title: "" });
+  if (!req.user) {
+    return res.render("home", { title: "- Home" });
+  }
+  res.render("index", { title: "", user: req.user });
 }
 
 module.exports = {

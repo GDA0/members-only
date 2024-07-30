@@ -69,4 +69,5 @@ module.exports = {
   checkUsernameExists,
   addUser,
   getUser,
+  pool,
 };

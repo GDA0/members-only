@@ -44,16 +44,18 @@
         id="username"
         name="username"
         value="<%= formData ? formData.username : '' %>"
+        autocomplete="username"
       />
     </div>
     <div class="mb-3">
-      <label for="password" class="form-label">Password</label>
+      <label for="new-password" class="form-label">Password</label>
       <input
         type="password"
         class="form-control"
-        id="password"
+        id="new-password"
         name="password"
         value="<%= formData ? formData.password : '' %>"
+        autocomplete="new-password"
       />
     </div>
     <div class="mb-3">
