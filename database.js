@@ -1,151 +1,151 @@
-const { Pool } = require("pg");
-require("dotenv").config();
+const { Pool } = require('pg')
+require('dotenv').config()
 
 const pool = new Pool({
-  connectionString: process.env.DB_URI,
-});
+  connectionString: process.env.DB_URI
+})
 
-async function checkUsernameExists(username) {
+async function checkUsernameExists (username) {
   try {
     const query = `
       SELECT 1 FROM users
       WHERE username = $1
       LIMIT 1
-    `;
-    const values = [username];
-    const { rowCount } = await pool.query(query, values);
-    return rowCount > 0;
+    `
+    const values = [username]
+    const { rowCount } = await pool.query(query, values)
+    return rowCount > 0
   } catch (error) {
-    console.error("Error checking username existence:", error);
-    throw error;
+    console.error('Error checking username existence:', error)
+    throw error
   }
 }
 
-async function addUser(firstName, lastName, username, password) {
+async function addUser (firstName, lastName, username, password) {
   try {
     const query = `
       INSERT INTO users (first_name, last_name, username, password)
       VALUES ($1, $2, $3, $4)
-    `;
-    const values = [firstName, lastName, username, password];
-    await pool.query(query, values);
+    `
+    const values = [firstName, lastName, username, password]
+    await pool.query(query, values)
   } catch (error) {
-    console.error("Error adding user:", error);
-    throw error;
+    console.error('Error adding user:', error)
+    throw error
   }
 }
 
-async function getUser(method, value) {
+async function getUser (method, value) {
   try {
-    let query;
-    const values = [value];
+    let query
+    const values = [value]
 
     switch (method) {
-      case "id":
+      case 'id':
         query = `
           SELECT * FROM users
           WHERE id = $1
-        `;
-        break;
-      case "username":
+        `
+        break
+      case 'username':
         query = `
           SELECT * FROM users
           WHERE username = $1
-        `;
-        break;
+        `
+        break
       default:
-        throw new Error("Invalid method. Use 'id' or 'username'.");
+        throw new Error("Invalid method. Use 'id' or 'username'.")
     }
 
-    const { rows } = await pool.query(query, values);
-    return rows[0];
+    const { rows } = await pool.query(query, values)
+    return rows[0]
   } catch (error) {
-    console.error("Error getting user:", error);
-    throw error;
+    console.error('Error getting user:', error)
+    throw error
   }
 }
 
-async function updateMembershipStatus(userId) {
+async function updateMembershipStatus (userId) {
   try {
     const query = `
     UPDATE users
     SET membership_status = $1 
     WHERE id = $2
-    `;
-    const values = ["member", userId];
-    await pool.query(query, values);
+    `
+    const values = ['member', userId]
+    await pool.query(query, values)
   } catch (error) {
-    console.error("Error updating membership status:", error);
-    throw error;
+    console.error('Error updating membership status:', error)
+    throw error
   }
 }
 
-async function addMessage(title, text, userId) {
+async function addMessage (title, text, userId) {
   try {
     const query = `
     INSERT INTO messages (title, text, user_id)
-    VALUES ($1, $2, $3)`;
-    const values = [title, text, userId];
-    await pool.query(query, values);
+    VALUES ($1, $2, $3)`
+    const values = [title, text, userId]
+    await pool.query(query, values)
   } catch (error) {
-    console.error("Error adding message:", error);
-    throw error;
+    console.error('Error adding message:', error)
+    throw error
   }
 }
 
-async function getAllMessages() {
+async function getAllMessages () {
   try {
     const query = `
       SELECT messages.id, messages.title, messages.text, messages.created_at, users.username
       FROM messages
-      JOIN users ON messages.user_id = users.id`;
-    const { rows } = await pool.query(query);
-    return rows;
+      JOIN users ON messages.user_id = users.id`
+    const { rows } = await pool.query(query)
+    return rows
   } catch (error) {
-    console.error("Error getting all messages:", error);
-    throw error;
+    console.error('Error getting all messages:', error)
+    throw error
   }
 }
 
-async function updateIsAdmin(userId) {
+async function updateIsAdmin (userId) {
   try {
     const query = `
     UPDATE users
     SET is_admin = true 
     WHERE id = $1
-    `;
-    const values = [userId];
-    await pool.query(query, values);
+    `
+    const values = [userId]
+    await pool.query(query, values)
   } catch (error) {
-    console.error("Error updating membership status:", error);
-    throw error;
+    console.error('Error updating membership status:', error)
+    throw error
   }
 }
 
-async function removeMessage(messageId) {
+async function removeMessage (messageId) {
   try {
     const query = `
     DELETE FROM messages 
-    WHERE id = $1`;
-    values = [messageId];
-    await pool.query(query, values);
+    WHERE id = $1`
+    const values = [messageId]
+    await pool.query(query, values)
   } catch (error) {
-    console.error("Error removing message:", error);
-    throw error;
+    console.error('Error removing message:', error)
+    throw error
   }
 }
 
-async function getMessage(messageId) {
+async function getMessage (messageId) {
   try {
     const query = `
     SELECT * FROM messages 
-    WHERE id = $1`;
-    values = [messageId];
-    const { rows } = await pool.query(query, values);
-    return rows[0];
+    WHERE id = $1`
+    const values = [messageId]
+    const { rows } = await pool.query(query, values)
+    return rows[0]
   } catch (error) {
-    console.error("Error removing message:", error);
-    throw error;
+    console.error('Error removing message:', error)
+    throw error
   }
 }
 
@@ -159,5 +159,5 @@ module.exports = {
   getAllMessages,
   updateIsAdmin,
   removeMessage,
-  getMessage,
-};
+  getMessage
+}

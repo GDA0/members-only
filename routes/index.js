@@ -1,69 +1,69 @@
-const express = require("express");
-const router = express.Router();
-const indexController = require("../controllers/index");
+const express = require('express')
+const router = express.Router()
+const indexController = require('../controllers/index')
 
-function checkAuthentication(req, res, next) {
+function checkAuthentication (req, res, next) {
   if (req.isAuthenticated()) {
-    return next();
+    return next()
   }
-  res.render("home", { title: "- Home", user: null });
+  res.render('home', { title: '- Home', user: null })
 }
 
-function checkMembershipStatus(req, res, next) {
-  if (req.user.membership_status !== "member") {
-    return res.redirect("/join-club");
+function checkMembershipStatus (req, res, next) {
+  if (req.user.membership_status !== 'member') {
+    return res.redirect('/join-club')
   }
-  next();
+  next()
 }
 
-function checkIsAdmin(req, res, next) {
+function checkIsAdmin (req, res, next) {
   if (!req.user.is_admin) {
-    return res.redirect("/become-admin");
+    return res.redirect('/become-admin')
   }
-  next();
+  next()
 }
 
-router.get("/", checkAuthentication, indexController.controlIndexGet);
+router.get('/', checkAuthentication, indexController.controlIndexGet)
 
 router.get(
-  "/create-message",
+  '/create-message',
   checkAuthentication,
   indexController.controlCreateMessageGet
-);
+)
 router.post(
-  "/create-message",
+  '/create-message',
   checkAuthentication,
   indexController.controlCreateMessagePost
-);
+)
 
 router.get(
-  "/become-admin",
+  '/become-admin',
   checkAuthentication,
   checkMembershipStatus,
   indexController.controlBecomeAdminGet
-);
+)
 
 router.post(
-  "/become-admin",
+  '/become-admin',
   checkAuthentication,
   checkMembershipStatus,
   indexController.controlBecomeAdminPost
-);
+)
 
 router.get(
-  "/messages/:id/delete",
+  '/messages/:id/delete',
   checkAuthentication,
   checkMembershipStatus,
   checkIsAdmin,
   indexController.controlDeleteMessageGet
-);
+)
 
 router.post(
-  "/messages/:id/delete",
+  '/messages/:id/delete',
   checkAuthentication,
   checkMembershipStatus,
   checkIsAdmin,
   indexController.controlDeleteMessagePost
-);
+)
 
-module.exports = router;
+module.exports = router

@@ -1,131 +1,131 @@
-const { body, validationResult } = require("express-validator");
-const bcrypt = require("bcryptjs");
-const database = require("../database");
+const { body, validationResult } = require('express-validator')
+const bcrypt = require('bcryptjs')
+const database = require('../database')
 
-function controlSignUpGet(req, res) {
-  res.render("sign-up", {
-    title: "- Sign up",
+function controlSignUpGet (req, res) {
+  res.render('sign-up', {
+    title: '- Sign up',
     errors: [],
     formData: {},
-    user: null,
-  });
+    user: null
+  })
 }
 
 const controlSignUpPost = [
-  body("first_name")
+  body('first_name')
     .trim()
     .notEmpty()
-    .withMessage("First name is required")
+    .withMessage('First name is required')
     .escape(),
-  body("last_name")
+  body('last_name')
     .trim()
     .notEmpty()
-    .withMessage("Last name is required")
+    .withMessage('Last name is required')
     .escape(),
-  body("username")
+  body('username')
     .trim()
     .notEmpty()
-    .withMessage("Username is required")
+    .withMessage('Username is required')
     .isLength({ min: 3 })
-    .withMessage("Username must be at least 3 characters long")
+    .withMessage('Username must be at least 3 characters long')
     .isLength({ max: 20 })
-    .withMessage("Username must be no more than 20 characters long")
-    .matches(/^[a-zA-Z0-9_\.]+$/)
+    .withMessage('Username must be no more than 20 characters long')
+    .matches(/^[a-zA-Z0-9_.]+$/)
     .withMessage(
-      "Username must contain only letters, numbers, underscores, or periods"
+      'Username must contain only letters, numbers, underscores, or periods'
     )
     .escape(),
-  body("password")
+  body('password')
     .notEmpty()
-    .withMessage("Password is required")
+    .withMessage('Password is required')
     .isLength({ min: 8 })
-    .withMessage("Password must be at least 8 characters long")
+    .withMessage('Password must be at least 8 characters long')
     .isLength({ max: 64 })
-    .withMessage("Password must be no more than 64 characters long")
+    .withMessage('Password must be no more than 64 characters long')
     .matches(/[A-Z]/)
-    .withMessage("Password must contain at least one uppercase letter")
+    .withMessage('Password must contain at least one uppercase letter')
     .matches(/[a-z]/)
-    .withMessage("Password must contain at least one lowercase letter")
+    .withMessage('Password must contain at least one lowercase letter')
     .matches(/[0-9]/)
-    .withMessage("Password must contain at least one number"),
-  body("confirm_password")
+    .withMessage('Password must contain at least one number'),
+  body('confirm_password')
     .custom((value, { req }) => value === req.body.password)
-    .withMessage("Passwords do not match"),
+    .withMessage('Passwords do not match'),
 
   async (req, res) => {
-    const errors = validationResult(req);
+    const errors = validationResult(req)
     if (!errors.isEmpty()) {
-      return res.render("sign-up", {
-        title: "- Sign up",
+      return res.render('sign-up', {
+        title: '- Sign up',
         errors: errors.array(),
         formData: req.body,
-        user: null,
-      });
+        user: null
+      })
     }
 
     try {
-      const { first_name, last_name, username, password } = req.body;
-      const usernameExists = await database.checkUsernameExists(username);
+      const { first_name, last_name, username, password } = req.body
+      const usernameExists = await database.checkUsernameExists(username)
       if (usernameExists) {
-        return res.render("sign-up", {
-          title: "- Sign up",
-          errors: [{ msg: "Username exists" }],
+        return res.render('sign-up', {
+          title: '- Sign up',
+          errors: [{ msg: 'Username exists' }],
           formData: req.body,
-          user: null,
-        });
+          user: null
+        })
       }
 
-      const hashedPassword = await bcrypt.hash(password, 10);
-      await database.addUser(first_name, last_name, username, hashedPassword);
+      const hashedPassword = await bcrypt.hash(password, 10)
+      await database.addUser(first_name, last_name, username, hashedPassword)
 
-      const user = await database.getUser("username", username);
+      const user = await database.getUser('username', username)
 
       req.login(user, (err) => {
         if (err) {
-          console.error("Error during auto login:", err);
-          return res.render("sign-up", {
-            title: "Sign up",
+          console.error('Error during auto login:', err)
+          return res.render('sign-up', {
+            title: 'Sign up',
             errors: [
               {
-                msg: "Sign-up was successful, but an error occurred during auto login. Please log in manually.",
-              },
+                msg: 'Sign-up was successful, but an error occurred during auto login. Please log in manually.'
+              }
             ],
             formData: req.body,
-            user: null,
-          });
+            user: null
+          })
         }
-        return res.redirect("/");
-      });
+        return res.redirect('/')
+      })
     } catch (error) {
-      console.error("Error during user sign-up:", error);
-      return res.render("sign-up", {
-        title: "Sign up",
+      console.error('Error during user sign-up:', error)
+      return res.render('sign-up', {
+        title: 'Sign up',
         errors: [
-          { msg: "An error occurred during sign-up. Please try again." },
+          { msg: 'An error occurred during sign-up. Please try again.' }
         ],
         formData: req.body,
-        user: null,
-      });
+        user: null
+      })
     }
-  },
-];
+  }
+]
 
-function controlLogInGet(req, res) {
-  res.render("log-in", { title: "- Log in", user: null });
+function controlLogInGet (req, res) {
+  res.render('log-in', { title: '- Log in', user: null })
 }
 
-function controlLogOutGet(req, res, next) {
+function controlLogOutGet (req, res, next) {
   req.logout((error) => {
     if (error) {
-      return next(error);
+      return next(error)
     }
-    res.redirect("/");
-  });
+    res.redirect('/')
+  })
 }
 
 module.exports = {
   controlSignUpGet,
   controlSignUpPost,
   controlLogInGet,
-  controlLogOutGet,
-};
+  controlLogOutGet
+}

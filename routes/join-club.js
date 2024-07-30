@@ -1,33 +1,33 @@
-const express = require("express");
-const router = express.Router();
-const joinClubController = require("../controllers/join-club");
+const express = require('express')
+const router = express.Router()
+const joinClubController = require('../controllers/join-club')
 
-function checkAuthentication(req, res, next) {
+function checkAuthentication (req, res, next) {
   if (req.isAuthenticated()) {
-    return next();
+    return next()
   }
-  res.redirect("/log-in");
+  res.redirect('/log-in')
 }
 
-function checkMembershipStatus(req, res, next) {
-  if (req.user.membership_status === "member") {
-    return res.redirect("/");
+function checkMembershipStatus (req, res, next) {
+  if (req.user.membership_status === 'member') {
+    return res.redirect('/')
   }
-  next();
+  next()
 }
 
 router.get(
-  "/join-club",
+  '/join-club',
   checkAuthentication,
   checkMembershipStatus,
   joinClubController.controlJoinClubGet
-);
+)
 
 router.post(
-  "/join-club",
+  '/join-club',
   checkAuthentication,
   checkMembershipStatus,
   joinClubController.controlJoinClubPost
-);
+)
 
-module.exports = router;
+module.exports = router

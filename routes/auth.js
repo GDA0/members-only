@@ -1,37 +1,37 @@
-const express = require("express");
-const passport = require("passport");
+const express = require('express')
+const passport = require('passport')
 
-const authController = require("../controllers/auth");
-const configurePassport = require("../configurePassport");
+const authController = require('../controllers/auth')
+const configurePassport = require('../configurePassport')
 
-const router = express.Router();
-configurePassport(passport);
+const router = express.Router()
+configurePassport(passport)
 
 // Check if the user is authenticated
-function checkAuthentication(req, res, next) {
+function checkAuthentication (req, res, next) {
   if (req.isAuthenticated()) {
-    return res.redirect("/");
+    return res.redirect('/')
   }
-  next();
+  next()
 }
 
 // Signup routes
-router.get("/sign-up", authController.controlSignUpGet);
-router.post("/sign-up", authController.controlSignUpPost);
+router.get('/sign-up', authController.controlSignUpGet)
+router.post('/sign-up', authController.controlSignUpPost)
 
 // Login routes
-router.get("/log-in", checkAuthentication, authController.controlLogInGet);
+router.get('/log-in', checkAuthentication, authController.controlLogInGet)
 router.post(
-  "/log-in",
+  '/log-in',
   checkAuthentication,
-  passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/log-in",
-    failureMessage: true,
+  passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/log-in',
+    failureMessage: true
   })
-);
+)
 
 // Logout route
-router.get("/log-out", authController.controlLogOutGet);
+router.get('/log-out', authController.controlLogOutGet)
 
-module.exports = router;
+module.exports = router
