@@ -93,6 +93,20 @@ async function addMessage(title, text, userId) {
   }
 }
 
+async function getAllMessages() {
+  try {
+    const query = `
+      SELECT messages.title, messages.text, messages.created_at, users.username
+      FROM messages
+      JOIN users ON messages.user_id = users.id`;
+    const { rows } = await pool.query(query);
+    return rows;
+  } catch (error) {
+    console.error("Error getting all messages:", error);
+    throw error;
+  }
+}
+
 module.exports = {
   checkUsernameExists,
   addUser,
@@ -100,4 +114,5 @@ module.exports = {
   pool,
   updateMembershipStatus,
   addMessage,
+  getAllMessages,
 };

@@ -1,8 +1,28 @@
 const { body, validationResult } = require("express-validator");
+const { formatDistanceToNow } = require("date-fns");
+
 const database = require("../database");
 
-function controlIndexGet(req, res) {
-  res.render("index", { title: "", user: req.user });
+async function controlIndexGet(req, res) {
+  try {
+    const messages = await database.getAllMessages();
+    res.render("index", {
+      title: "- Messages",
+      user: req.user,
+      messages,
+      formatDistanceToNow,
+      error: "",
+    });
+  } catch (error) {
+    console.error("Error getting all messages", error);
+    res.render("index", {
+      title: "- Messages",
+      user: req.user,
+      messages: [],
+      formatDistanceToNow,
+      error: "Error getting all messages messages. Please refresh the page.",
+    });
+  }
 }
 
 function controlCreateMessageGet(req, res) {

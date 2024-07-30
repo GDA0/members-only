@@ -1,5 +1,38 @@
 <% layout('layout') %>
 
 <div>
-  <a href="/create-message">Create message</a>
+  <div class="d-flex">
+    <h5>Messages</h5>
+    <a class="ms-auto" href="/create-message">Create message</a>
+  </div>
+
+  <% if (error) { %>
+  <div class="alert alert-danger"><%= error %></div>
+  <% } %>
+
+  <div>
+    <% if (messages.length > 0) { %>
+    <ul class="list-group list-group-flush">
+      <% messages.forEach((message) => { %>
+      <li class="list-group-item">
+        <div class="bg-light p-3 rounded my-3">
+          <span class="fs-5"><%= message.title %></span>
+          <p class="my-1"><%= message.text %></p>
+          <% if (user && user.membership_status === 'member') { %>
+          <small
+            >By <%= message.username %> - <%= formatDistanceToNow(new
+            Date(message.created_at), { addSuffix: true }) %></small
+          >
+          <% } %>
+        </div>
+      </li>
+      <% }); %>
+    </ul>
+    <% } else { %>
+    <div class="alert alert-info">
+      No messages yet. Be the first to
+      <a href="/create-message">create a message</a>.
+    </div>
+    <% } %>
+  </div>
 </div>
