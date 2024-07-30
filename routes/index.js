@@ -11,4 +11,10 @@ function checkAuthentication(req, res, next) {
 
 router.get("/", checkAuthentication, indexController.controlIndexGet);
 
+router.get(
+  "/create-message",
+  checkAuthentication,
+  indexController.controlCreateMessageGet
+);
+
 module.exports = router;

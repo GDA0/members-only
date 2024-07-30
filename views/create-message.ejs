@@ -1,0 +1,23 @@
+<% layout('layout') %>
+
+<div class="mx-auto" style="max-width: 540px">
+  <h2 class="text-center">Create message</h2>
+
+  <form class="my-3" action="/create-message" method="post">
+    <div class="mb-3">
+      <label for="title" class="form-label">Title</label>
+      <input
+        type="text"
+        class="form-control"
+        id="title"
+        name="title"
+        autofocus
+      />
+    </div>
+    <div class="mb-3">
+      <label for="current-password" class="form-label">Text</label>
+      <textarea name="text" id="text" class="form-control" rows="3"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+  </form>
+</div>
