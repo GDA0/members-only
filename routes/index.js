@@ -16,6 +16,13 @@ function checkMembershipStatus(req, res, next) {
   next();
 }
 
+function checkIsAdmin(req, res, next) {
+  if (!req.user.is_admin) {
+    return res.redirect("/become-admin");
+  }
+  next();
+}
+
 router.get("/", checkAuthentication, indexController.controlIndexGet);
 
 router.get(
@@ -41,6 +48,14 @@ router.post(
   checkAuthentication,
   checkMembershipStatus,
   indexController.controlBecomeAdminPost
+);
+
+router.get(
+  "/messages/:id/delete",
+  checkAuthentication,
+  checkMembershipStatus,
+  checkIsAdmin,
+  indexController.controlDeleteMessageGet
 );
 
 module.exports = router;

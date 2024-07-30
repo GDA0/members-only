@@ -118,10 +118,21 @@ async function controlBecomeAdminPost(req, res) {
   }
 }
 
+async function controlDeleteMessageGet(req, res) {
+  const { id } = req.params;
+
+  res.render("delete-message", {
+    title: "- Delete message",
+    user: req.user,
+    id,
+  });
+}
+
 module.exports = {
   controlIndexGet,
   controlCreateMessageGet,
   controlCreateMessagePost,
   controlBecomeAdminGet,
   controlBecomeAdminPost,
+  controlDeleteMessageGet,
 };
