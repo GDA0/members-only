@@ -9,6 +9,13 @@ function checkAuthentication(req, res, next) {
   res.render("home", { title: "- Home", user: null });
 }
 
+function checkMembershipStatus(req, res, next) {
+  if (req.user.membership_status !== "member") {
+    return res.redirect("/join-club");
+  }
+  next();
+}
+
 router.get("/", checkAuthentication, indexController.controlIndexGet);
 
 router.get(
@@ -25,7 +32,15 @@ router.post(
 router.get(
   "/become-admin",
   checkAuthentication,
+  checkMembershipStatus,
   indexController.controlBecomeAdminGet
+);
+
+router.post(
+  "/become-admin",
+  checkAuthentication,
+  checkMembershipStatus,
+  indexController.controlBecomeAdminPost
 );
 
 module.exports = router;

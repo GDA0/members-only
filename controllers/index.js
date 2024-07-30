@@ -81,9 +81,47 @@ function controlBecomeAdminGet(req, res) {
   });
 }
 
+async function controlBecomeAdminPost(req, res) {
+  try {
+    const { secret_passcode } = req.body;
+
+    if (secret_passcode === req.user.username.split("").reverse().join("")) {
+      await database.updateIsAdmin(req.user.id);
+      res.render("./become-admin/success", {
+        title: "- Become admin success",
+        user: req.user,
+      });
+    } else {
+      res.render("./become-admin/become-admin", {
+        title: "- Become admin",
+        formData: req.body,
+        errors: [
+          {
+            msg: "Incorrect secret passcode. Please try again.",
+          },
+        ],
+        user: req.user,
+      });
+    }
+  } catch (error) {
+    console.error("Error verifying secret passcode", error);
+    res.render("./become-admin/become-admin", {
+      title: "- Become admin",
+      formData: req.body,
+      errors: [
+        {
+          msg: "Error verifying secret passcode. Please try again.",
+        },
+      ],
+      user: req.user,
+    });
+  }
+}
+
 module.exports = {
   controlIndexGet,
   controlCreateMessageGet,
   controlCreateMessagePost,
   controlBecomeAdminGet,
+  controlBecomeAdminPost,
 };

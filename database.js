@@ -107,6 +107,21 @@ async function getAllMessages() {
   }
 }
 
+async function updateIsAdmin(userId) {
+  try {
+    const query = `
+    UPDATE users
+    SET is_admin = true 
+    WHERE id = $1
+    `;
+    const values = [userId];
+    await pool.query(query, values);
+  } catch (error) {
+    console.error("Error updating membership status:", error);
+    throw error;
+  }
+}
+
 module.exports = {
   checkUsernameExists,
   addUser,
@@ -115,4 +130,5 @@ module.exports = {
   updateMembershipStatus,
   addMessage,
   getAllMessages,
+  updateIsAdmin,
 };
