@@ -65,9 +65,25 @@ async function getUser(method, value) {
   }
 }
 
+async function updateMembershipStatus(userId) {
+  try {
+    const query = `
+    UPDATE users
+    SET membership_status = $1 
+    WHERE id = $2
+    `;
+    const values = ["member", userId];
+    await pool.query(query, values);
+  } catch (error) {
+    console.error("Error updating membership status:", error);
+    throw error;
+  }
+}
+
 module.exports = {
   checkUsernameExists,
   addUser,
   getUser,
   pool,
+  updateMembershipStatus,
 };
