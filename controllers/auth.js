@@ -47,9 +47,7 @@ const controlSignUpPost = [
     .matches(/[a-z]/)
     .withMessage("Password must contain at least one lowercase letter")
     .matches(/[0-9]/)
-    .withMessage("Password must contain at least one number")
-    .matches(/[@$!%*?&]/)
-    .withMessage("Password must contain at least one special character"),
+    .withMessage("Password must contain at least one number"),
   body("confirm_password")
     .custom((value, { req }) => value === req.body.password)
     .withMessage("Passwords do not match"),
