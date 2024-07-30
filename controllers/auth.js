@@ -107,8 +107,18 @@ function controlLogInGet(req, res) {
   res.render("log-in", { title: "- Log in" });
 }
 
+function controlLogOutGet(req, res, next) {
+  req.logout((error) => {
+    if (error) {
+      return next(error);
+    }
+    res.redirect("/");
+  });
+}
+
 module.exports = {
   controlSignUpGet,
   controlSignUpPost,
   controlLogInGet,
+  controlLogOutGet,
 };
