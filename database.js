@@ -122,6 +122,19 @@ async function updateIsAdmin(userId) {
   }
 }
 
+async function removeMessage(messageId) {
+  try {
+    const query = `
+    DELETE FROM messages 
+    WHERE id = $1`;
+    values = [messageId];
+    await pool.query(query, values);
+  } catch (error) {
+    console.error("Error removing message:", error);
+    throw error;
+  }
+}
+
 module.exports = {
   checkUsernameExists,
   addUser,
@@ -131,4 +144,5 @@ module.exports = {
   addMessage,
   getAllMessages,
   updateIsAdmin,
+  removeMessage,
 };

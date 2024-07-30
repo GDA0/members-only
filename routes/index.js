@@ -58,4 +58,12 @@ router.get(
   indexController.controlDeleteMessageGet
 );
 
+router.post(
+  "/messages/:id/delete",
+  checkAuthentication,
+  checkMembershipStatus,
+  checkIsAdmin,
+  indexController.controlDeleteMessagePost
+);
+
 module.exports = router;

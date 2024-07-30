@@ -118,14 +118,35 @@ async function controlBecomeAdminPost(req, res) {
   }
 }
 
-async function controlDeleteMessageGet(req, res) {
+function controlDeleteMessageGet(req, res) {
   const { id } = req.params;
 
   res.render("delete-message", {
     title: "- Delete message",
     user: req.user,
     id,
+    errors: [],
   });
+}
+
+async function controlDeleteMessagePost(req, res) {
+  try {
+    const { id } = req.params;
+    await database.removeMessage(id);
+    res.redirect("/");
+  } catch (error) {
+    console.error("Error deleting message:", error);
+    res.render("delete-message", {
+      title: "- Delete message",
+      user: req.user,
+      id,
+      errors: [
+        {
+          msg: "An error occurred while deleting the message. Please try again.",
+        },
+      ],
+    });
+  }
 }
 
 module.exports = {
@@ -135,4 +156,5 @@ module.exports = {
   controlBecomeAdminGet,
   controlBecomeAdminPost,
   controlDeleteMessageGet,
+  controlDeleteMessagePost,
 };
