@@ -1,0 +1,19 @@
+<% layout('layout') %>
+
+<div class="mx-auto" style="max-width: 540px">
+  <h3>Join club</h3>
+  <p>Enter the secret passcode (your username) to join the club.</p>
+  <form action="/join-club" method="post">
+    <div class="mb-3">
+      <label for="secret_passcode" class="form-label">Secret Passcode:</label>
+      <input
+        type="text"
+        id="secret_passcode"
+        name="secret_passcode"
+        class="form-control"
+        autofocus
+      />
+    </div>
+    <button type="submit" class="btn btn-primary">Join</button>
+  </form>
+</div>

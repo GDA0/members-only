@@ -4,4 +4,10 @@
   <h3>Welcome, <%= user.first_name %>!</h3>
   <p>You are logged in.</p>
   <a href="/log-out" class="btn btn-danger shadow-sm rounded-pill">Log out</a>
+
+  <% if (user.membership_status !== 'member') { %>
+  <a href="/join-club" class="btn btn-primary shadow-sm rounded-pill ms-3"
+    >Join club</a
+  >
+  <% } %>
 </div>
