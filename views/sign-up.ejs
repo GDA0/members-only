@@ -22,7 +22,7 @@
           class="form-control"
           id="first_name"
           name="first_name"
-          value="<%= formData ? formData.first_name : '' %>"
+          value="<%- formData ? formData.first_name : '' %>"
           autofocus
         />
       </div>
@@ -33,7 +33,7 @@
           class="form-control"
           id="last_name"
           name="last_name"
-          value="<%= formData ? formData.last_name : '' %>"
+          value="<%- formData ? formData.last_name : '' %>"
         />
       </div>
     </div>
@@ -44,7 +44,7 @@
         class="form-control"
         id="username"
         name="username"
-        value="<%= formData ? formData.username : '' %>"
+        value="<%- formData ? formData.username : '' %>"
         autocomplete="username"
       />
     </div>
