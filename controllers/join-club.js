@@ -5,6 +5,7 @@ function controlJoinClubGet(req, res) {
     title: "- Join club",
     formData: {},
     errors: [],
+    user: req.user,
   });
 }
 
@@ -14,7 +15,10 @@ async function controlJoinClubPost(req, res) {
 
     if (secret_passcode === req.user.username) {
       await database.updateMembershipStatus(req.user.id);
-      res.render("./join-club/success", { title: "- Join club success" });
+      res.render("./join-club/success", {
+        title: "- Join club success",
+        user: req.user,
+      });
     } else {
       res.render("./join-club/join-club", {
         title: "- Join club",
@@ -24,6 +28,7 @@ async function controlJoinClubPost(req, res) {
             msg: "Incorrect secret passcode. Please try again.",
           },
         ],
+        user: req.user,
       });
     }
   } catch (error) {
@@ -36,6 +41,7 @@ async function controlJoinClubPost(req, res) {
           msg: "Error verifying secret passcode. Please try again.",
         },
       ],
+      user: req.user,
     });
   }
 }

@@ -15,7 +15,6 @@ body {
   font-family: "Roboto", sans-serif;
 }
 
-main a,
-footer a {
+a {
   text-decoration: none;
 }

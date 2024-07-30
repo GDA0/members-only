@@ -3,7 +3,12 @@ const bcrypt = require("bcryptjs");
 const database = require("../database");
 
 function controlSignUpGet(req, res) {
-  res.render("sign-up", { title: "- Sign up", errors: [], formData: {} });
+  res.render("sign-up", {
+    title: "- Sign up",
+    errors: [],
+    formData: {},
+    user: null,
+  });
 }
 
 const controlSignUpPost = [
@@ -56,6 +61,7 @@ const controlSignUpPost = [
         title: "- Sign up",
         errors: errors.array(),
         formData: req.body,
+        user: null,
       });
     }
 
@@ -67,6 +73,7 @@ const controlSignUpPost = [
           title: "- Sign up",
           errors: [{ msg: "Username exists" }],
           formData: req.body,
+          user: null,
         });
       }
 
@@ -86,6 +93,7 @@ const controlSignUpPost = [
               },
             ],
             formData: req.body,
+            user: null,
           });
         }
         return res.redirect("/");
@@ -98,13 +106,14 @@ const controlSignUpPost = [
           { msg: "An error occurred during sign-up. Please try again." },
         ],
         formData: req.body,
+        user: null,
       });
     }
   },
 ];
 
 function controlLogInGet(req, res) {
-  res.render("log-in", { title: "- Log in" });
+  res.render("log-in", { title: "- Log in", user: null });
 }
 
 function controlLogOutGet(req, res, next) {

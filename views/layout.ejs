@@ -41,6 +41,21 @@
       <nav class="navbar fixed-top bg-white border-bottom border-1">
         <div class="container">
           <a class="navbar-brand" href="/">Members Only</a>
+          <div class="ms-auto d-flex">
+            <% if (user) { %>
+            <span>Welcome, <%= user.first_name %>!</span>
+
+            <ol class="breadcrumb mb-0 ms-3">
+              <% if (user.membership_status !== 'member') { %>
+              <li class="breadcrumb-item">
+                <a href="/join-club">Join club</a>
+              </li>
+              <% } %>
+              <li class="breadcrumb-item"><a href="/log-out">Log out</a></li>
+            </ol>
+
+            <% } %>
+          </div>
         </div>
       </nav>
     </header>
