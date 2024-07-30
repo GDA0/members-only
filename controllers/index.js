@@ -3,13 +3,20 @@ const { formatDistanceToNow } = require("date-fns");
 
 const database = require("../database");
 
+function sortMessagesByDate(messages) {
+  return messages.sort(
+    (a, b) => new Date(b.created_at) - new Date(a.created_at)
+  );
+}
+
 async function controlIndexGet(req, res) {
   try {
     const messages = await database.getAllMessages();
+    const sortedMessages = sortMessagesByDate(messages);
     res.render("index", {
       title: "- Messages",
       user: req.user,
-      messages,
+      messages: sortedMessages,
       formatDistanceToNow,
       error: "",
     });
