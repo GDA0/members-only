@@ -80,10 +80,24 @@ async function updateMembershipStatus(userId) {
   }
 }
 
+async function addMessage(title, text, userId) {
+  try {
+    const query = `
+    INSERT INTO messages (title, text, user_id)
+    VALUES ($1, $2, $3)`;
+    const values = [title, text, userId];
+    await pool.query(query, values);
+  } catch (error) {
+    console.error("Error adding message:", error);
+    throw error;
+  }
+}
+
 module.exports = {
   checkUsernameExists,
   addUser,
   getUser,
   pool,
   updateMembershipStatus,
+  addMessage,
 };

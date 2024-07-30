@@ -3,6 +3,16 @@
 <div class="mx-auto" style="max-width: 540px">
   <h2 class="text-center">Create message</h2>
 
+  <% if (errors && errors.length > 0) { %>
+  <div class="alert alert-danger">
+    <ul class="mb-0">
+      <% errors.forEach((error) => { %>
+      <li><%= error.msg %></li>
+      <% }) %>
+    </ul>
+  </div>
+  <% } %>
+
   <form class="my-3" action="/create-message" method="post">
     <div class="mb-3">
       <label for="title" class="form-label">Title</label>
@@ -11,12 +21,15 @@
         class="form-control"
         id="title"
         name="title"
+        value="<%- formData ? formData.title : '' %>"
         autofocus
       />
     </div>
     <div class="mb-3">
       <label for="current-password" class="form-label">Text</label>
-      <textarea name="text" id="text" class="form-control" rows="3"></textarea>
+      <textarea name="text" id="text" class="form-control" rows="3">
+        <%- formData ? formData.text : '' %>
+      </textarea>
     </div>
     <button type="submit" class="btn btn-primary">Create</button>
   </form>

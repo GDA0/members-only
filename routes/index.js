@@ -16,5 +16,10 @@ router.get(
   checkAuthentication,
   indexController.controlCreateMessageGet
 );
+router.post(
+  "/create-message",
+  checkAuthentication,
+  indexController.controlCreateMessagePost
+);
 
 module.exports = router;
