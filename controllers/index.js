@@ -72,8 +72,18 @@ const controlCreateMessagePost = [
   },
 ];
 
+function controlBecomeAdminGet(req, res) {
+  res.render("./become-admin/become-admin", {
+    title: "- Become admin",
+    user: req.user,
+    errors: [],
+    formData: {},
+  });
+}
+
 module.exports = {
   controlIndexGet,
   controlCreateMessageGet,
   controlCreateMessagePost,
+  controlBecomeAdminGet,
 };

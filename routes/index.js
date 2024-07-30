@@ -22,4 +22,10 @@ router.post(
   indexController.controlCreateMessagePost
 );
 
+router.get(
+  "/become-admin",
+  checkAuthentication,
+  indexController.controlBecomeAdminGet
+);
+
 module.exports = router;

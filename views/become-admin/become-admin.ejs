@@ -1,0 +1,31 @@
+<% layout('layout') %>
+
+<div class="mx-auto" style="max-width: 540px">
+  <h3>Become admin</h3>
+  <p>Enter the secret passcode (your username reversed) to become an admin.</p>
+
+  <% if (errors && errors.length > 0) { %>
+  <div class="alert alert-danger">
+    <ul class="mb-0">
+      <% errors.forEach((error) => { %>
+      <li><%= error.msg %></li>
+      <% }) %>
+    </ul>
+  </div>
+  <% } %>
+
+  <form class="mt-3" action="/become-club" method="post">
+    <div class="mb-3">
+      <label for="secret_passcode" class="form-label">Secret Passcode:</label>
+      <input
+        type="text"
+        id="secret_passcode"
+        name="secret_passcode"
+        class="form-control"
+        value="<%= formData ? formData.secret_passcode : '' %>"
+        autofocus
+      />
+    </div>
+    <button type="submit" class="btn btn-primary">Become admin</button>
+  </form>
+</div>

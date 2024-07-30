@@ -16,12 +16,13 @@
       <% messages.forEach((message) => { %>
       <li class="list-group-item">
         <div class="bg-light p-3 rounded my-3">
-          <span class="fs-5"><%= message.title %></span>
-          <p class="my-1"><%= message.text %></p>
+          <span class="fs-5"><%- message.title %></span>
+          <p class="my-1"><%- message.text %></p>
           <% if (user && user.membership_status === 'member') { %>
           <small
-            >By <%= message.username %> - <%= formatDistanceToNow(new
-            Date(message.created_at), { addSuffix: true }) %></small
+            >By <a href="/">@<%- message.username %></a> - <%=
+            formatDistanceToNow(new Date(message.created_at), { addSuffix: true
+            }) %></small
           >
           <% } %>
         </div>

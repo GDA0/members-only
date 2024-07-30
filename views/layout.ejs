@@ -50,7 +50,12 @@
               <li class="breadcrumb-item">
                 <a href="/join-club">Join club</a>
               </li>
+              <% } %> <% if (!user.is_admin) { %>
+              <li class="breadcrumb-item">
+                <a href="/become-admin">Become admin</a>
+              </li>
               <% } %>
+
               <li class="breadcrumb-item"><a href="/log-out">Log out</a></li>
             </ol>
 
