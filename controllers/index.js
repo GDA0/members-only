@@ -132,8 +132,22 @@ function controlDeleteMessageGet(req, res) {
 async function controlDeleteMessagePost(req, res) {
   try {
     const { id } = req.params;
-    await database.removeMessage(id);
-    res.redirect("/");
+    const message = await database.getMessage(id);
+    if (message.user_id !== 10 || req.user.id === 10) {
+      await database.removeMessage(id);
+      res.redirect("/");
+    } else {
+      res.render("delete-message", {
+        title: "- Delete message",
+        user: req.user,
+        id,
+        errors: [
+          {
+            msg: `Sorry, you cannot delete messages by <a href="/">@GDA</a>`,
+          },
+        ],
+      });
+    }
   } catch (error) {
     console.error("Error deleting message:", error);
     res.render("delete-message", {

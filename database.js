@@ -135,6 +135,20 @@ async function removeMessage(messageId) {
   }
 }
 
+async function getMessage(messageId) {
+  try {
+    const query = `
+    SELECT * FROM messages 
+    WHERE id = $1`;
+    values = [messageId];
+    const { rows } = await pool.query(query, values);
+    return rows[0];
+  } catch (error) {
+    console.error("Error removing message:", error);
+    throw error;
+  }
+}
+
 module.exports = {
   checkUsernameExists,
   addUser,
@@ -145,4 +159,5 @@ module.exports = {
   getAllMessages,
   updateIsAdmin,
   removeMessage,
+  getMessage,
 };
