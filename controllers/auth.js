@@ -103,7 +103,12 @@ const controlSignUpPost = [
   },
 ];
 
+function controlLogInGet(req, res) {
+  res.render("log-in", { title: "- Log in" });
+}
+
 module.exports = {
   controlSignUpGet,
   controlSignUpPost,
+  controlLogInGet,
 };
