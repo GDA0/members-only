@@ -18,12 +18,19 @@
         <div class="bg-light p-3 rounded my-3">
           <span class="fs-5"><%- message.title %></span>
           <p class="my-1"><%- message.text %></p>
-          <% if (user && user.membership_status === 'member') { %>
-          <small
-            >By <a href="/">@<%- message.username %></a> - <%=
-            formatDistanceToNow(new Date(message.created_at), { addSuffix: true
-            }) %></small
-          >
+          <% if (user.membership_status === 'member') { %>
+          <div class="d-flex justify-content-between">
+            <small
+              >By <a href="/">@<%- message.username %></a> - <%=
+              formatDistanceToNow(new Date(message.created_at), { addSuffix:
+              true }) %></small
+            >
+            <% if (user.is_admin) { %>
+            <a href="/messages/<%= message.id %>/delete" class="text-danger"
+              >Delete</a
+            >
+            <% } %>
+          </div>
           <% } %>
         </div>
       </li>
