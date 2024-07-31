@@ -1,5 +1,5 @@
 const { body, validationResult } = require('express-validator')
-const { formatDistanceToNow } = require('date-fns')
+const { formatDistanceToNow, format } = require('date-fns')
 
 const database = require('../database')
 
@@ -65,7 +65,8 @@ const controlCreateMessagePost = [
     try {
       const { title, text } = req.body
       const { id } = req.user
-      await database.addMessage(title, text, id)
+      const createdAt = format(new Date(), 'yyyy-MM-dd HH:mm:ss')
+      await database.addMessage(title, text, id, createdAt)
 
       res.redirect('/')
     } catch (error) {
@@ -140,7 +141,7 @@ async function controlDeleteMessagePost (req, res) {
   try {
     const { id } = req.params
     const message = await database.getMessage(id)
-    if (message.user_id !== 10 || req.user.id === 10) {
+    if (message.user_id !== 1 || req.user.id === 1) {
       await database.removeMessage(id)
       res.redirect('/')
     } else {

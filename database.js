@@ -80,12 +80,12 @@ async function updateMembershipStatus (userId) {
   }
 }
 
-async function addMessage (title, text, userId) {
+async function addMessage (title, text, userId, createdAt) {
   try {
     const query = `
-    INSERT INTO messages (title, text, user_id)
-    VALUES ($1, $2, $3)`
-    const values = [title, text, userId]
+    INSERT INTO messages (title, text, user_id, created_at)
+    VALUES ($1, $2, $3, $4)`
+    const values = [title, text, userId, createdAt]
     await pool.query(query, values)
   } catch (error) {
     console.error('Error adding message:', error)
